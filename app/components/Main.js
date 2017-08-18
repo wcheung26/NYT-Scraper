@@ -15,9 +15,11 @@ class Main extends React.Component {
 			start: "",
 			end: "",
 			results: [],
-			saved: []
+			saved: [],
+			updateCounter: 0
 		}
 		this.setSearch = this.setSearch.bind(this);
+		this.refresh = this.refresh.bind(this);
 	}
 
   // The moment the page renders get the saved articles
@@ -26,7 +28,7 @@ class Main extends React.Component {
     console.log("componentDidMount");
     helpers.getSaved().then((response) => {
     	console.log("getSaved:", response)
-    	this.setState({ saved: response });
+    	this.setState({ saved: response.data });
   	});
   };
 
@@ -45,6 +47,19 @@ class Main extends React.Component {
 				}
 			});
 		}
+    console.log("componentDidUpdate");
+    if (prevState.updateCounter !== this.state.updateCounter) {
+	    helpers.getSaved().then((response) => {
+	    	console.log("getSaved:", response)
+	  		if (prevState.saved !== response.data) {
+	    		this.setState({ saved: response.data });
+	  		}
+	    });
+    }
+	};
+
+	refresh() {
+		this.setState({ updateCounter: this.state.updateCounter + 1 });
 	};
 
 	setSearch( topic, start, end ) {
@@ -59,7 +74,8 @@ class Main extends React.Component {
 		return (
 			<div>
 				<Form setSearch={this.setSearch} />
-				<Results results={this.state.results} />
+				<Results results={this.state.results} refresh={this.refresh} />
+				<Saved saved={this.state.saved} refresh={this.refresh} />
 			</div>
 		)
 	}

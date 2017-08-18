@@ -5,7 +5,19 @@ import Article from "./Article";
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			updateCounter: 0
+		}
+		this.refresh = this.refresh.bind(this);
 	}
+
+	componentDidUpdate( prevProps, prevState ) {
+		if (prevState.updateCounter !== this.state.updateCounter) this.props.refresh();
+	};
+
+	refresh() {
+		this.setState({ updateCounter: this.state.updateCounter + 1 });
+	};
 
 	render() {
 		return(
@@ -17,8 +29,8 @@ class Results extends React.Component {
 						</div>
 						<div className="panel-body">
 							{this.props.results.map(function(article, i){
-								return <Article article={article} key={i} />
-							})}
+								return <Article article={article} key={i} refresh={this.refresh} />
+							}.bind(this))}
 						</div>
 					</div>
 				</div>

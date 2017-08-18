@@ -3,7 +3,7 @@ var moment = require("moment");
 
 import helpers from "../util/helpers";
 
-class Article extends React.Component {
+class SavedArticle extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
@@ -12,9 +12,9 @@ class Article extends React.Component {
 	handleClick(e) {
 		e.preventDefault();
 		console.log("Button clicked! \n", this);
-		console.log("Title clicked:", this.props.article.headline.main);
-		console.log("URL clicked:", this.props.article.web_url);
-		helpers.postSaved(this.props.article.headline.main, this.props.article.web_url);
+		// console.log("Title clicked:", this.props.savedArticle.headline.main);
+		// console.log("URL clicked:", this.props.savedArticle.web_url);
+		helpers.deleteSaved(this.props.savedArticle._id);
 		this.props.refresh();
 	}
 
@@ -24,23 +24,23 @@ class Article extends React.Component {
 				<div className="row">
 					<div className="col-md-10 article">
 						<h5>
-							<a href={this.props.article.web_url}> 
-								{this.props.article.headline.main}
+							<a href={this.props.savedArticle.url}> 
+								{this.props.savedArticle.title}
 							</a>
 							<span className="published">
 								<small>
-									Published on {moment(this.props.article.pub_date).format("dddd, MMMM Do YYYY")}
+									Saved on {moment(this.props.savedArticle.date).format("dddd, MMMM Do YYYY")}
 								</small>
 							</span>
 						</h5>
 					</div>
-					<div className="col-md-2">
+					<div className="col-md-2">					
 						<button 
 							onClick={this.handleClick} 
-							data-title={this.props.article.headline.main} 
-							data-url={this.props.article.web_url} 
-							className="btn btn-default">Save
-						</button>						
+							data-title={this.props.savedArticle.title} 
+							data-url={this.props.savedArticle.url} 
+							className="btn btn-default">Remove
+						</button>
 					</div>
 				</div>
 			</div>
@@ -48,4 +48,4 @@ class Article extends React.Component {
 	}
 }
 
-export default Article;
+export default SavedArticle;

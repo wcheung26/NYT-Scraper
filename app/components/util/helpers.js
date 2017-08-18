@@ -26,6 +26,10 @@ const helpers = {
 
   postSaved: ( title, url ) => {
   	return axios.post("/api/saved", {title: title, url: url});
+  },
+
+  deleteSaved: ( id ) => {
+  	return axios.delete(`/api/saved/${id}`);
   }
 };
 
