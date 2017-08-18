@@ -1,0 +1,19 @@
+.header {
+	border-bottom: solid 2px black;
+	padding-bottom: 10px;
+	margin-bottom: 30px;
+	background-color: #447bb4;
+}
+
+.published {
+	margin-left: 10px;
+}
+
+.articleBox {
+	border: solid 1px grey;
+	padding: 10px;
+}
+
+.article {
+	text-align: left;
+}
